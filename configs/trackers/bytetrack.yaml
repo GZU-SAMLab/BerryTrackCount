@@ -1,0 +1,30 @@
+# Blueberry MOT tuned ByteTrack config for dense, small, partially occluded berries.
+# Kept conservative because pure IoU association collapses easily in 200-300 object scenes.
+det_thresh:
+  default: 0.18
+max_age:
+  default: 22
+max_obs:
+  default: 50
+min_hits:
+  default: 1
+iou_threshold:
+  default: 0.20
+per_class:
+  default: false
+nr_classes:
+  default: 4
+asso_func:
+  default: iou
+is_obb:
+  default: false
+min_conf:
+  default: 0.10
+track_thresh:
+  default: 0.24
+match_thresh:
+  default: 0.78
+track_buffer:
+  default: 24
+frame_rate:
+  default: 30

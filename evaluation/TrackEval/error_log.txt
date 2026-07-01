@@ -1,0 +1,148 @@
+MotChallenge2DBox
+bytetrack
+Traceback (most recent call last):
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 94, in evaluate
+    res[curr_seq] = eval_sequence(
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 242, in eval_sequence
+    raw_data = dataset.get_raw_seq_data(tracker, seq)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/datasets/_base_dataset.py", line 94, in get_raw_seq_data
+    raw_gt_data = self._load_raw_file(tracker, seq, is_gt=True)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/datasets/mot_challenge_2d_box.py", line 228, in _load_raw_file
+    time_data = np.asarray(read_data[time_key], dtype=np.float)
+  File "/home/wh1234_/.conda/envs/yolo/lib/python3.9/site-packages/numpy/__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'float'.
+`np.float` was a deprecated alias for the builtin `float`. To avoid this error in existing code, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+
+
+
+
+
+MotChallenge2DBox
+ocsort
+Traceback (most recent call last):
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 94, in evaluate
+    res[curr_seq] = eval_sequence(
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 242, in eval_sequence
+    raw_data = dataset.get_raw_seq_data(tracker, seq)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/datasets/_base_dataset.py", line 94, in get_raw_seq_data
+    raw_gt_data = self._load_raw_file(tracker, seq, is_gt=True)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/datasets/mot_challenge_2d_box.py", line 228, in _load_raw_file
+    time_data = np.asarray(read_data[time_key], dtype=np.float)
+  File "/home/wh1234_/.conda/envs/yolo/lib/python3.9/site-packages/numpy/__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'float'.
+`np.float` was a deprecated alias for the builtin `float`. To avoid this error in existing code, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+
+
+
+
+
+MotChallenge2DBox
+bytetrack
+Traceback (most recent call last):
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 94, in evaluate
+    res[curr_seq] = eval_sequence(
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 246, in eval_sequence
+    data = dataset.get_preprocessed_seq_data(raw_data, cls)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/datasets/mot_challenge_2d_box.py", line 359, in get_preprocessed_seq_data
+    to_remove_tracker = np.array([], np.int)
+  File "/home/wh1234_/.conda/envs/yolo/lib/python3.9/site-packages/numpy/__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+
+
+
+
+
+MotChallenge2DBox
+ocsort
+Traceback (most recent call last):
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 94, in evaluate
+    res[curr_seq] = eval_sequence(
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 246, in eval_sequence
+    data = dataset.get_preprocessed_seq_data(raw_data, cls)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/datasets/mot_challenge_2d_box.py", line 359, in get_preprocessed_seq_data
+    to_remove_tracker = np.array([], np.int)
+  File "/home/wh1234_/.conda/envs/yolo/lib/python3.9/site-packages/numpy/__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+
+
+
+
+
+MotChallenge2DBox
+bytetrack
+Traceback (most recent call last):
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 94, in evaluate
+    res[curr_seq] = eval_sequence(
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 248, in eval_sequence
+    seq_res[cls][met_name] = metric.eval_sequence(data)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/metrics/hota.py", line 31, in eval_sequence
+    res[field] = np.zeros((len(self.array_labels)), dtype=np.float)
+  File "/home/wh1234_/.conda/envs/yolo/lib/python3.9/site-packages/numpy/__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'float'.
+`np.float` was a deprecated alias for the builtin `float`. To avoid this error in existing code, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+
+
+
+
+
+MotChallenge2DBox
+ocsort
+Traceback (most recent call last):
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 94, in evaluate
+    res[curr_seq] = eval_sequence(
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/eval.py", line 248, in eval_sequence
+    seq_res[cls][met_name] = metric.eval_sequence(data)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/_timing.py", line 64, in wrap
+    return f(*args, **kw)
+  File "/home/wh1234_/code/Counting/evaluation/TrackEval/trackeval/metrics/hota.py", line 31, in eval_sequence
+    res[field] = np.zeros((len(self.array_labels)), dtype=np.float)
+  File "/home/wh1234_/.conda/envs/yolo/lib/python3.9/site-packages/numpy/__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'float'.
+`np.float` was a deprecated alias for the builtin `float`. To avoid this error in existing code, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+
+
+
+
+

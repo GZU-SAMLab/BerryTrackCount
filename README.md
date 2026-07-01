@@ -1,0 +1,222 @@
+# BerryTrackCount
+
+BerryTrackCount is a detection-tracking-counting framework for blueberry flower and fruit video counting across multiple phenological stages. It combines small-target detection, dense-cluster multi-object tracking, and region-based trajectory counting to support yield estimation, harvest planning, and precision orchard management.
+
+This repository contains the main detection, tracking, counting, evaluation, and visualization code used for the BerryTrackCount blueberry video counting pipeline.
+
+## Highlights
+
+- Constructed and curated a multi-phenological blueberry video counting dataset, including 368 detection images, 66,717 annotations, 40 MOT sequences, 9,213 frames, and 14,819 trajectories.
+- Developed BerryDet as a lightweight blueberry detector by integrating the Spatial-Channel Interactive Fusion Module and Slicing Aided Hyper Inference to improve small-target representation and localization.
+- Designed BerryTracker by incorporating Height-Modulated Complete Intersection over Union and the Cross-Attention Appearance Reconstruction Module to reduce association ambiguity in dense and visually similar blueberry clusters.
+- Built an integrated detection-tracking-counting framework with Region-based counting to achieve category-specific blueberry counting across multiple phenological stages.
+- Reported paper results include 89.1 mAP@0.5 for BerryDet-s, 62.08 MOTA and 77.35 IDF1 for BerryTracker, as well as 93.48% counting accuracy and 0.97 coefficient of determination (R^2) for the full framework.
+
+## Structure
+
+```text
+.
+|-- bash/                  # SLURM scripts for training, counting, evaluation, and visualization
+|-- configs/               # Dataset, detector, and tracker configuration files
+|-- count/                 # Blueberry counting pipeline and reusable counter logic
+|-- detector/              # Detector modules, ablation code, and training helpers
+|-- evaluation/            # Tracker and counter evaluation scripts, including TrackEval
+|-- tools/                 # Data conversion, video detection, visualization, and utility tools
+|-- trackers/              # BoxMOT-based tracking code and BerryTracker implementation
+|-- ultralytics/           # Local Ultralytics/YOLO code used by the detector
+|-- visualize/             # Tracking, counting, heatmap, ablation, and result visualization scripts
+`-- requirements.txt
+```
+
+## Installation
+
+Create a Python environment with PyTorch support, then install the repository dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+The requirements file installs local editable packages for:
+
+```text
+./trackers
+./pytorch-grad-cam
+./evaluation/TrackEval
+```
+
+For GPU inference or training, install a PyTorch build that matches your CUDA runtime before installing the remaining dependencies.
+
+## Required Assets
+
+Download the dataset and model weights from Baidu Netdisk:
+
+```text
+Link: https://pan.baidu.com/s/1QKA449L5s0KdHUZ3ErmnOw
+Extraction code: hnhr
+```
+
+After downloading, place the files under the repository root following the layout below before running the full pipeline. All model weights are stored directly in `weights/`.
+
+```text
+weights/
+|-- yolo11s.pt
+|-- yolo11l.pt
+`-- osnet_ain_x1_0_blueberry.pt
+```
+
+The `dataset/` directory contains two blueberry datasets:
+
+```text
+dataset/
+|-- 20251027_yolo_82_640/          # Blueberry detection image dataset in YOLO format
+|   |-- images/
+|   |   |-- train/
+|   |   `-- val/
+|   `-- labels/
+|       |-- train/
+|       `-- val/
+`-- blueberry_mot_stitched_walk/   # Blueberry multi-object tracking dataset
+    |-- seqmaps/
+    |-- train/
+    |-- test/
+    |-- manifest.json
+    |-- train_manifest.json
+    `-- test_manifest.json
+```
+
+For detector training, update `configs/data/mydata.yaml` so that `path` points to `dataset/20251027_yolo_82_640` or the absolute path where this YOLO-format detection dataset is stored:
+
+```yaml
+path: dataset/20251027_yolo_82_640
+train: images/train
+val: images/val
+
+nc: 4
+names: ['Flower', 'Green', 'Light Purple', 'Blue']
+```
+
+## Run
+
+Apply BerryTracker counting to real videos listed in `dataset/video_path.json`:
+
+```bash
+python tools/count_apply.py \
+  --video-path-json dataset/video_path.json \
+  --yolo-weights weights/berrydet_s.pt \
+  --reid-weights weights/osnet_ain_x1_0_blueberry.pt \
+  --tracker-config configs/trackers/mytrack.yaml \
+  --output-dir output/count_apply \
+  --device cuda
+```
+or
+```bash
+INPUTS=(
+  "/home/wh1234_/data/video/10s/20250427block8.mp4"
+  "/home/wh1234_/data/video/count_apply/block3.mp4"
+  "/home/wh1234_/data/video/count_apply/block4.mp4"
+  "/home/wh1234_/data/blueberry_mot_stitched_walk/train/Blueberry-Train-10"
+)
+python tools/count_visu.py \
+  --input "${INPUTS[@]}" \
+  --output-dir output/count_visu \
+  --yolo-weights weights/berrydet_s.pt \
+  --reid-weights weights/osnet_ain_x1_0_blueberry.pt \
+  --tracker-config configs/trackers/mytrack.yaml
+```
+
+Run counting on a MOT-style test set with multiple trackers:
+
+```bash
+python count/blueberry_count.py \
+  --data-root dataset/blueberry_mot_stitched_walk \
+  --output-dir output/count/stitched_walk \
+  --reid-path weights/osnet_ain_x1_0_blueberry.pt \
+  --tracker-config-dir configs/trackers \
+  --device cuda
+```
+
+## Training
+
+Detector training and ablation helpers are provided in `detector/`:
+
+```text
+detector/BerryDet.py
+detector/det_ablation.py
+```
+
+These scripts use the local `ultralytics` package and read dataset settings from `configs/data/mydata.yaml`. Some helpers contain hard-coded experiment paths and config names for the original training environment; check the paths in the target script before launching. SLURM launch examples are provided in `bash/`.
+
+## Evaluation
+
+Evaluate trackers on the blueberry MOT test set:
+
+```bash
+python evaluation/1_tracker_eval.py \
+  --data_root dataset/blueberry_mot_stitched_walk \
+  --yolo_weights weights/berrydet_s.pt \
+  --tracker_config_dir configs/trackers \
+  --reid_path weights/osnet_ain_x1_0_blueberry.pt \
+  --output_dir output/eval/blueberry_mot_stitched_walk
+```
+
+Evaluate counting outputs against ground-truth count CSV files:
+
+```bash
+python evaluation/1_counter_eval.py \
+  --gt dataset/mot_Count_GT/stitched_walk_count_GT.csv \
+  --pred-dir output/count/stitched_walk \
+  --out output/count_eval/stitched_walk/counter_eval.csv \
+  --acc-out output/count_eval/stitched_walk/counter_accuracy_by_sequence.csv
+```
+
+The counter evaluation reports Accuracy, GEH, R^2, RMSE, and FPS for each stage and total count.
+
+## Visualization
+
+Visualize tracker outputs on a video or MOT image sequence:
+
+```bash
+python visualize/tracker_visu.py \
+    --sequence-dir dataset/blueberry_mot_stitched_walk/test/Blueberry-Test-10 \
+    --reid-weights weights/osnet_ain_x1_0_blueberry.pt \
+    --tracker-config-dir configs/tracker \
+    --output-dir output/visualize/tracker/seq-10 \
+    --device cuda
+```
+
+Visualize BerryTracker counting results:
+
+```bash
+python visualize/berrytracker_count_visu.py \
+  --sequence-dir dataset/blueberry_mot_stitched_walk/test/Blueberry-Test-15 \
+  --output-dir output/visualize/BerryTracker_Count \
+  --trackers mytrack strongsort botsort \
+  --yolo-weights weights/yolo11l.pt \
+  --default-yolo-weights weights/yolo11s.pt \
+  --reid-weights weights/osnet_ain_x1_0_blueberry.pt \
+  --device cuda
+```
+
+## Outputs
+
+Counting scripts write CSV files such as:
+
+```text
+output/count_apply/id_count.csv
+output/count_apply/line_count.csv
+output/count_apply/area_count.csv
+```
+
+Tracker evaluation writes summary and per-sequence metrics to:
+
+```text
+output/eval/<dataset_name>/tracker_evaluation_results.csv
+output/eval/<dataset_name>/tracker_sequence_evaluation_results.csv
+```
+
+## Notes
+
+- The blueberry datasets, trained detector weights, and ReID weights are provided through the Baidu Netdisk link above.
+- Most scripts assume CUDA when available; pass `--device cpu` for CPU-only inference.
+- `mytrack` is the BerryTracker implementation and uses `configs/trackers/mytrack.yaml`.
+- The counting classes are fixed to `Flower`, `Green`, `Light Purple`, and `Blue`.

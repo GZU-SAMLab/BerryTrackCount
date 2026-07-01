@@ -1,0 +1,46 @@
+# Ultralytics YOLO 🚀, AGPL-3.0 license
+# YOLOv8 object detection model with P3-P5 outputs. For Usage examples see https://docs.ultralytics.com/tasks/detect
+
+# Parameters
+nc: 4 # number of classes
+scales: # model compound scaling constants, i.e. 'model=yolo11n.yaml' will call yolo11.yaml with scale 'n'
+  # [depth, width, max_channels]
+  n: [0.50, 0.25, 1024] # summary: 181 layers, 2624080 parameters, 2624064 gradients, 6.6 GFLOPs
+  s: [0.50, 0.50, 1024] # summary: 181 layers, 9458752 parameters, 9458736 gradients, 21.7 GFLOPs
+  m: [0.50, 1.00, 512] # summary: 231 layers, 20114688 parameters, 20114672 gradients, 68.5 GFLOPs
+  l: [1.00, 1.00, 512] # summary: 357 layers, 25372160 parameters, 25372144 gradients, 87.6 GFLOPs
+  x: [1.00, 1.50, 512] # summary: 357 layers, 56966176 parameters, 56966160 gradients, 196.0 GFLOPs
+
+# YOLOv8.0n backbone 640×640×3
+backbone:
+  # [from, repeats, module, args]
+  - [-1, 1, Conv, [64, 3, 2]] # 0-p1/2 320×320×64 
+  - [-1, 1, Conv, [128, 3, 2]] # 1-p2/4 160×160×128
+  - [-1, 2, FCM_3, [128]] # 2 160×160×128
+  - [-1, 1, Conv, [256, 3, 2]] # 3-p3/8 80×80×256
+  - [-1, 2, FCM_2, [256]] # 4 80×80×256
+  - [-1, 1, Conv, [512, 3, 2]] # 5-p4/16 40×40×512
+  - [-1, 2, FCM_1, [512]] # 6 40×40×512
+  - [-1, 1, Conv, [1024, 3, 2]] # 7-p4/16 40×40×512
+  - [-1, 2, FCM, [1024]] # 8 40×40×512
+  - [-1, 1, SPPF, [1024, 5]] # 9 40×40×512
+  - [-1, 2, C2PSA, [1024]] # 10 40×40×512
+
+head:
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]] # 11 80×80×512
+  - [[-1, 6], 1, Concat, [1]] # cat backbone P3 80×80×(512+256) -> 80×80×768
+  - [-1, 2, C3k2, [512, False]] # 13 (p3/8) 80×80×256
+
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]] # 14 160×160×256
+  - [[-1, 4], 1, Concat, [1]] # cat backbone P2 160×160×(256+128) -> 160×160×384
+  - [-1, 2, C3k2, [256, False]] # 16 (P2/4) 160×160×128
+
+  - [-1, 1, Conv, [256, 3, 2]] # 17 80×80×256
+  - [[-1, 13], 1, Concat, [1]] # cat head P3 80×80×(256+256) -> 80×80×512
+  - [-1, 2, C3k2, [512, False]] # 19 (P3/8) 80×80×256
+
+  - [-1, 1, Conv, [512, 3, 2]] # 20 40×40×512
+  - [[-1, 10], 1, Concat, [1]] # cat head P4 40×40×(512+512) -> 40×40×1024
+  - [-1, 2, C3k2, [1024, True]] # 22 (P4/16) 40×40×512
+
+  - [[16,19, 22], 1, Detect, [nc]] # Detect(P3, P4)

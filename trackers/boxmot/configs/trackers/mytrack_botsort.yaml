@@ -1,0 +1,54 @@
+track_high_thresh:
+  type: uniform
+  default: 0.6
+  range: [0.3, 0.7]
+
+track_low_thresh:
+  type: uniform
+  default: 0.1
+  range: [0.1, 0.3]
+
+new_track_thresh:
+  type: uniform
+  default: 0.7
+  range: [0.1, 0.8]
+
+track_buffer:
+  type: randint
+  default: 30
+  range: [20, 81]
+
+match_thresh:
+  type: uniform
+  default: 0.8
+  range: [0.1, 0.9]
+
+proximity_thresh:
+  type: uniform
+  default: 0.5
+  range: [0.25, 0.75]
+
+appearance_thresh:
+  type: uniform
+  default: 0.25
+  range: [0.1, 0.8]
+
+asso_func:
+  type: choice
+  default: hciou
+  options: ["iou", "giou", "diou", "ciou", "hmiou", "hciou"]
+
+cmc_method:
+  type: choice
+  default: ecc
+  options: [sof, ecc]
+
+with_reid:
+  type: choice
+  default: true
+  options: [True, False]
+
+aarm_open:
+  type: choice
+  default: true
+  options: [True, False]

@@ -1,0 +1,37 @@
+-e ./trackers
+-e ./pytorch-grad-cam
+-e ./evaluation/TrackEval
+
+# Core runtime dependencies
+torch
+torchvision
+numpy
+opencv-python
+Pillow
+PyYAML
+loguru
+requests
+tqdm
+scipy
+pandas
+matplotlib
+scikit-learn
+
+# Detection / slicing / tracking
+sahi
+shapely
+lap
+filterpy
+gdown
+filelock
+packaging
+
+# Plotting / analysis.
+matplotlib
+seaborn
+openpyxl
+
+# Grad-CAM support.
+ttach
+
+

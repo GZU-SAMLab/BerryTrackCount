@@ -1,0 +1,34 @@
+# Blueberry MOT tuned StrongSort config.
+# ReID remains the main strength here, but IoU gating is tightened to reduce cross-berry identity swaps.
+det_thresh:
+  default: 0.22
+max_age:
+  default: 22
+max_obs:
+  default: 50
+min_hits:
+  default: 2
+iou_threshold:
+  default: 0.18
+per_class:
+  default: false
+nr_classes:
+  default: 4
+asso_func:
+  default: iou
+is_obb:
+  default: false
+min_conf:
+  default: 0.08
+max_cos_dist:
+  default: 0.08
+max_iou_dist:
+  default: 0.90
+n_init:
+  default: 3
+nn_budget:
+  default: 50
+mc_lambda:
+  default: 0.99
+ema_alpha:
+  default: 0.96

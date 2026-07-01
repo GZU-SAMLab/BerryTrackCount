@@ -1,0 +1,31 @@
+# Blueberry MOT tuned OCSort config for dense, small, partially occluded berries.
+det_thresh:
+  default: 0.22
+max_age:
+  default: 22
+max_obs:
+  default: 50
+min_hits:
+  default: 1
+iou_threshold:
+  default: 0.20
+per_class:
+  default: false
+nr_classes:
+  default: 4
+asso_func:
+  default: diou
+is_obb:
+  default: false
+min_conf:
+  default: 0.10
+delta_t:
+  default: 3
+inertia:
+  default: 0.18
+use_byte:
+  default: true
+Q_xy_scaling:
+  default: 0.015
+Q_s_scaling:
+  default: 0.0003
