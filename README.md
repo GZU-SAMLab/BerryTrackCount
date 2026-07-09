@@ -1,18 +1,39 @@
 # BerryTrackCount
 
-BerryTrackCount is a detection-tracking-counting framework for blueberry flower and fruit video counting across multiple phenological stages. It combines small-target detection, dense-cluster multi-object tracking, and region-based trajectory counting to support yield estimation, harvest planning, and precision orchard management.
+BerryTrackCount is a video-based phenotyping framework for detecting, tracking, and counting blueberry flowers and fruits across multiple phenological stages. It integrates scale-sensitive detection, identity-preserving multi-object tracking, and trajectory-gated phenological counting to support high-throughput phenotyping, yield estimation, harvest planning, and precision orchard management.
 
-This repository contains the main detection, tracking, counting, evaluation, and visualization code used for the BerryTrackCount blueberry video counting pipeline.
+This repository provides the main code for the BerryTrackCount pipeline, including detection, tracking, counting, evaluation, visualization, and data-processing tools.
 
 ## Highlights
 
-- Constructed and curated a multi-phenological blueberry video counting dataset, including 368 detection images, 66,717 annotations, 40 MOT sequences, 9,213 frames, and 14,819 trajectories.
-- Developed BerryDet as a lightweight blueberry detector by integrating the Spatial-Channel Interactive Fusion Module and Slicing Aided Hyper Inference to improve small-target representation and localization.
-- Designed BerryTracker by incorporating Height-Modulated Complete Intersection over Union and the Cross-Attention Appearance Reconstruction Module to reduce association ambiguity in dense and visually similar blueberry clusters.
-- Built an integrated detection-tracking-counting framework with Region-based counting to achieve category-specific blueberry counting across multiple phenological stages.
-- Reported paper results include 89.1 mAP@0.5 for BerryDet-s, 62.08 MOTA and 77.35 IDF1 for BerryTracker, as well as 93.48% counting accuracy and 0.97 coefficient of determination (R^2) for the full framework.
+- Constructed a phenology-aware blueberry video counting dataset, including 368 detection images, 66,717 annotations, 40 MOT sequences, 9,213 frames, and 14,819 trajectories.
+- Developed BerryDet, a scale-sensitive blueberry detector that integrates the Micro-target Spatial--Semantic Coupling Module (MSSC) and Slicing Aided Hyper Inference (SAHI) to improve small-target representation in high-resolution orchard images.
+- Designed BerryTracker by introducing Vertical-Consistency Modulated Complete IoU (VCM-CIoU) and Trajectory-Conditioned Appearance Reconstruction (TCAR) to improve identity association in dense and visually homogeneous blueberry clusters.
+- Proposed Phenology-specific Trajectory-Gated Counting (PTGC), which converts stabilized trajectories into category-specific counts while reducing repeated counting caused by continuous video sampling.
+- Reported paper results include 89.1% mAP@0.5 for BerryDet-s, 62.08% MOTA and 77.35% IDF1 for BerryTracker, and 93.48% counting accuracy with an R^2 of 0.97 for the complete BerryTrackCount framework.
 
-## Structure
+## Framework
+
+BerryTrackCount follows a detection--tracking--counting pipeline:
+
+1. **BerryDet detection**  
+   Detects blueberry flowers and fruits in each video frame and outputs bounding boxes, class labels, and confidence scores.
+
+2. **BerryTracker association**  
+   Maintains target identities across frames by combining VCM-CIoU geometric similarity, VDC motion consistency, and TCAR-based appearance similarity.
+
+3. **PTGC counting**  
+   Counts each trajectory only when it first enters the predefined counting region and maintains separate ID sets for `Flower`, `Green`, `Light Purple`, and `Blue`.
+
+The four counting classes are:
+
+```text
+Flower
+Green
+Light Purple
+Blue
+
+## Repository Structure
 
 ```text
 .
@@ -48,12 +69,7 @@ For GPU inference or training, install a PyTorch build that matches your CUDA ru
 
 ## Required Assets
 
-Download the dataset and model weights from Baidu Netdisk:
-
-```text
-Link: https://pan.baidu.com/s/1QKA449L5s0KdHUZ3ErmnOw
-Extraction code: hnhr
-```
+Download the dataset and model weights from Baidu Netdisk [here](https://pan.baidu.com/s/1TPP9mp5VCl4D0D0pyIdmTA?pwd=1234).
 
 After downloading, place the files under the repository root following the layout below before running the full pipeline. All model weights are stored directly in `weights/`.
 
@@ -219,4 +235,3 @@ output/eval/<dataset_name>/tracker_sequence_evaluation_results.csv
 - The blueberry datasets, trained detector weights, and ReID weights are provided through the Baidu Netdisk link above.
 - Most scripts assume CUDA when available; pass `--device cpu` for CPU-only inference.
 - `mytrack` is the BerryTracker implementation and uses `configs/trackers/mytrack.yaml`.
-- The counting classes are fixed to `Flower`, `Green`, `Light Purple`, and `Blue`.

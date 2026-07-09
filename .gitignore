@@ -1,0 +1,11 @@
+weights
+output
+dataset
+logs
+images
+**/__pycache__/
+runs
+1
+ref
+temp_configs
+mytrackers

@@ -1,6 +1,0 @@
-# ninja log v7
-5	26514	1766612946026297206	/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/build/temp.linux-x86_64-cpython-38/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/src/cpu/ms_deform_attn_cpu.o	cb847d21ed8f9080
-6	45887	1766612946028342452	/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/build/temp.linux-x86_64-cpython-38/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/src/cuda/ms_deform_attn_cuda.o	626cbd217771a0ee
-8	47854	1766612946029811825	/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/build/temp.linux-x86_64-cpython-38/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/src/vision.o	5f18864cf302b08e
-76	40346	1766613021297042363	/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/build/temp.linux-x86_64-cpython-38/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/src/cuda/ms_deform_attn_cuda.o	626cbd217771a0ee
-79	41167	1766613021299416266	/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/build/temp.linux-x86_64-cpython-38/home/wh1234_/code/Counting/detector/DINO/models/dino/ops/src/vision.o	5f18864cf302b08e
