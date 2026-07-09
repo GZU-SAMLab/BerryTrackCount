@@ -111,53 +111,13 @@ nc: 4
 names: ['Flower', 'Green', 'Light Purple', 'Blue']
 ```
 
-## Run
-
-Apply BerryTracker counting to real videos listed in `dataset/video_path.json`:
-
-```bash
-python tools/count_apply.py \
-  --video-path-json dataset/video_path.json \
-  --yolo-weights weights/berrydet_s.pt \
-  --reid-weights weights/osnet_ain_x1_0_blueberry.pt \
-  --tracker-config configs/trackers/mytrack.yaml \
-  --output-dir output/count_apply \
-  --device cuda
-```
-or
-```bash
-INPUTS=(
-  "/home/wh1234_/data/video/10s/20250427block8.mp4"
-  "/home/wh1234_/data/video/count_apply/block3.mp4"
-  "/home/wh1234_/data/video/count_apply/block4.mp4"
-  "/home/wh1234_/data/blueberry_mot_stitched_walk/train/Blueberry-Train-10"
-)
-python tools/count_visu.py \
-  --input "${INPUTS[@]}" \
-  --output-dir output/count_visu \
-  --yolo-weights weights/berrydet_s.pt \
-  --reid-weights weights/osnet_ain_x1_0_blueberry.pt \
-  --tracker-config configs/trackers/mytrack.yaml
-```
-
-Run counting on a MOT-style test set with multiple trackers:
-
-```bash
-python count/blueberry_count.py \
-  --data-root dataset/blueberry_mot_stitched_walk \
-  --output-dir output/count/stitched_walk \
-  --reid-path weights/osnet_ain_x1_0_blueberry.pt \
-  --tracker-config-dir configs/trackers \
-  --device cuda
-```
-
 ## Training
 
-Detector training and ablation helpers are provided in `detector/`:
+Detector  and ReID training:
 
 ```text
 detector/BerryDet.py
-detector/det_ablation.py
+trackers/boxmot/trackers/mytrack/train_reid_osnet_ain_x1_0.py
 ```
 
 These scripts use the local `ultralytics` package and read dataset settings from `configs/data/mydata.yaml`. Some helpers contain hard-coded experiment paths and config names for the original training environment; check the paths in the target script before launching. SLURM launch examples are provided in `bash/`.
@@ -211,6 +171,35 @@ python visualize/berrytracker_count_visu.py \
   --default-yolo-weights weights/yolo11s.pt \
   --reid-weights weights/osnet_ain_x1_0_blueberry.pt \
   --device cuda
+```
+
+## Count Real Videos
+
+Apply BerryTracker counting to real videos listed in `dataset/video_path.json`:
+
+```bash
+python tools/count_apply.py \
+  --video-path-json dataset/video_path.json \
+  --yolo-weights weights/berrydet_s.pt \
+  --reid-weights weights/osnet_ain_x1_0_blueberry.pt \
+  --tracker-config configs/trackers/mytrack.yaml \
+  --output-dir output/count_apply \
+  --device cuda
+```
+or
+```bash
+INPUTS=(
+  "/home/wh1234_/data/video/10s/20250427block8.mp4"
+  "/home/wh1234_/data/video/count_apply/block3.mp4"
+  "/home/wh1234_/data/video/count_apply/block4.mp4"
+  "/home/wh1234_/data/blueberry_mot_stitched_walk/train/Blueberry-Train-10"
+)
+python tools/count_visu.py \
+  --input "${INPUTS[@]}" \
+  --output-dir output/count_visu \
+  --yolo-weights weights/berrydet_s.pt \
+  --reid-weights weights/osnet_ain_x1_0_blueberry.pt \
+  --tracker-config configs/trackers/mytrack.yaml
 ```
 
 ## Outputs
